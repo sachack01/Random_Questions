@@ -1,0 +1,53 @@
+Remove Duplicates from a Sorted Linked List
+Difficulty: Easy
+
+Problem:
+Given a singly linked list. The task is to remove duplicates (nodes with duplicate values) from the given list (if it exists).
+Note: Try not to use extra space. The nodes are arranged in a sorted way.
+
+Examples:
+
+Input:
+LinkedList: 2->2->4->5
+Output: 2 -> 4 -> 5
+
+Explanation: In the given linked list 2 -> 2 -> 4 -> 5, only 2 occurs more than 1 time. So we need to remove it once.
+Input:
+LinkedList: 2->2->2->2->2
+Output: 2
+
+Explanation: In the given linked list  2 -> 2 -> 2 -> 2, 2 is the only element and is repeated 5 times. So we need to remove any four 2.
+Expected Time Complexity : O(n)
+Expected Space Complexity: O(1)
+
+Constraints:
+1 <= Number of nodes, data of nodes <= 105 
+
+Code:
+
+class Solution {
+  public:
+    // Function to remove duplicates from sorted linked list.
+    Node* removeDuplicates(Node* head) {
+        // Check if the list is empty
+        if (!head) return nullptr;
+
+        Node* current = head;
+
+        // Traverse the list
+        while (current->next) {
+            // If current node's data is the same as the next node's data
+            if (current->data == current->next->data) {
+                // Duplicate found, so we skip the next node
+                Node* duplicate = current->next;
+                current->next = current->next->next;
+                delete duplicate;
+            } else {
+                // Move to the next node if no duplicate
+                current = current->next;
+            }
+        }
+
+        return head;
+    }
+};
