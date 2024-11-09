@@ -1,0 +1,92 @@
+Sum of two large numbers
+------------------------------------------------------
+Difficulty: Medium
+------------------------------------------------------
+
+Problem:
+Given two strings denoting non-negative numbers X and Y. Calculate the sum of X and Y.
+
+
+Example 1:
+
+Input:
+X = "25", Y = "23"
+Output:
+48
+Explanation:
+The sum of 25 and 23 is 48.
+Example 2:
+
+Input:
+X = "2500", Y = "23"
+Output:
+2523
+Explanation:
+The sum of 2500 and 23 is 2523.
+
+Your Task:
+Your task is to complete the function findSum() which takes two strings as inputs and returns the string without leading zeros. You do not need to take any input or print anything.
+
+
+Expected Time Complexity: O(|X| + |Y|)
+Expected Auxiliary Space: O(1)
+
+
+Constraints:
+1 <= |X|, |Y| <= 105
+
+------------------------------------------------------
+
+Code:
+
+class Solution {
+  public:
+    string findSum(string X, string Y) {
+        // Your code goes here
+        
+        // while doing addition we are adding from right, so to make it easy we reverse both strings
+        // to add easily from left one by one of string X and Y(or try in notebook for given test cases to get it)
+        reverse(X.begin(), X.end());
+        reverse(Y.begin(), Y.end());
+        
+        int i=0, j=0;
+        int carry = 0;
+        string ans;
+        
+        // here we are checking with OR for both numbers, so incase if i=4 or j=3, in that case
+        // it will take garbage value of j and add it to our sum
+        // so for avoiding it, we are using if statement solely for i and j
+        while(i<X.size() || j<Y.size())
+        {
+            int sum = 0;
+            if(i<X.size())
+            {
+                sum += (X[i++] - '0');
+            }
+            
+            if(j<Y.size())
+            {
+                sum += (Y[j++] - '0');
+            }
+            sum += carry;
+            carry = sum/10;
+            sum = sum%10;
+            ans += to_string(sum);  // changing integer sum to string for adding it to string 'ans'
+        }
+        // add if extra carry was there
+        if(carry>0)
+        {
+            ans += to_string(carry);
+        }
+        
+        // removing trailing zeroes
+        while(ans.back() == '0') ans.pop_back();
+        
+        // reverse it back to correct form
+        
+        reverse(ans.begin(), ans.end());
+        // instead of returning return ans; directly use below form to handle empty case
+        return ans.empty() ? "0" : ans;  // Fixed: Handle empty string case
+    }
+};
+
